@@ -27,6 +27,7 @@ public class PauseScript : MonoBehaviour {
 			)
 		    )
 		{
+			Time.timeScale = 1.0f;
 			Destroy(transform.gameObject.GetComponent<PauseScript>());
 		}
 		if (GUI.Button(
@@ -40,6 +41,7 @@ public class PauseScript : MonoBehaviour {
 			)
 		    )
 		{
+			Time.timeScale = 0.0f;
 			Application.LoadLevel("TitleScreen");
 		}
 	}

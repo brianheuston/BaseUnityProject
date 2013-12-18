@@ -1,0 +1,10 @@
+This is a template for any Unity game I'd want to create. It features:
+
+- Pause menu
+- Title screen
+- Blank game scene
+- Controller script to initially listen for pause command
+
+TODO:
+- Add controller support for menus (Changing to GUI.SelectionGrid)
+- Add a button to the game scene that can be tapped/clicked to pause with an option to disable
