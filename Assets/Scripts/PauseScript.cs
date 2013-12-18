@@ -10,6 +10,8 @@ public class PauseScript : MonoBehaviour {
 
 	private float fOldTimescale = 0.0f;
 
+	public const float fMaxJoystickRange = 0.8f;
+
 	// Use this for initialization
 	void Start () {
 		fOldTimescale = Time.timeScale;
@@ -18,23 +20,15 @@ public class PauseScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonUp("Up")) {
+		if (Input.GetButtonUp("Up") || Input.GetAxis("Vertical") < -fMaxJoystickRange) {
 			iSelected = Mathf.Max(iSelected - 1, 0);
-		} else if (Input.GetButtonUp("Down")) {
+		} else if (Input.GetButtonUp("Down") || Input.GetAxis("Vertical") > fMaxJoystickRange) {
 			iSelected = Mathf.Min(iSelected + 1, arrButtonNames.Length - 1);
-		} else if (Input.GetButtonUp("Select")) {
-			switch (iSelected) {
-				case 0:
-					Time.timeScale = fOldTimescale;
-					Destroy(transform.gameObject.GetComponent<PauseScript>());
-					break;
-				case 1:
-					Time.timeScale = fOldTimescale;
-					Application.LoadLevel("TitleScreen");
-					break;
-				default:
-					break;
-			}
+		} else if (Input.GetButtonUp("Select") || (GUI.changed && Input.GetMouseButtonUp(0)) || 
+		           Input.GetButtonUp("Select (Controller)")) {
+			ProcessInput();
+		} else if (Input.GetButtonUp("Back (Controller)")) {
+			ResumeGame();
 		}
 	}
 
@@ -47,5 +41,24 @@ public class PauseScript : MonoBehaviour {
 		                                       Screen.height * 3 / 5 - (gridHeight / 2),
 		                                       gridWidth, gridHeight), 
 		                              		   iSelected, arrButtonNames, 1);
+	}
+
+	void ProcessInput() {
+		switch (iSelected) {
+			case 0:
+				ResumeGame();
+				break;
+			case 1:
+				Time.timeScale = fOldTimescale;
+				Application.LoadLevel("TitleScreen");
+				break;
+			default:
+				break;
+		}
+	}
+
+	void ResumeGame() {
+		Time.timeScale = fOldTimescale;
+		Destroy(transform.gameObject.GetComponent<PauseScript>());
 	}
 }

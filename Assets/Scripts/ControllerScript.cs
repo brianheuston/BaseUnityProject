@@ -11,10 +11,18 @@ public class ControllerScript : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonUp("Pause")) {
 			if (Time.timeScale == 0.0f) {
-				Destroy(transform.gameObject.GetComponent<PauseScript>());
+				ResumeGame();
 			} else {
-				transform.gameObject.AddComponent<PauseScript>();
+				PauseGame();
 			}
 		}
+	}
+
+	void ResumeGame() {
+		Destroy(transform.gameObject.GetComponent<PauseScript>());
+	}
+
+	void PauseGame() {
+		transform.gameObject.AddComponent<PauseScript>();
 	}
 }
