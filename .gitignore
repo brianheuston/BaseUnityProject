@@ -219,3 +219,4 @@ Library/
 Temp/
 *.sln
 *.userprefs
+*.csproj

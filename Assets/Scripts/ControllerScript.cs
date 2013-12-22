@@ -12,7 +12,7 @@ public class ControllerScript : MonoBehaviour {
 		if (Input.GetButtonUp("Pause")) {
 			if (Time.timeScale == 0.0f) {
 				ResumeGame();
-			} else {
+			} else if (transform.gameObject.GetComponent<GameOverScript>() == null) {
 				PauseGame();
 			}
 		}
