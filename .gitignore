@@ -217,6 +217,11 @@ pip-log.txt
 # Unity
 Library/
 Temp/
+obj/
 *.sln
-*.userprefs
 *.csproj
+*.pidb
+*.suo
+*.pidb
+*.userprefs
+*.user

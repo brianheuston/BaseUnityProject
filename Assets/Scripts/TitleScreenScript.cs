@@ -5,10 +5,17 @@ public class TitleScreenScript : MonoBehaviour {
 	private int iSelected = 0;
 	private string[] arrButtonNames = new string[] { "Start", "Quit" };
 
-	public const int gridWidth = 90;
-	public const int gridHeight = 60;
+	public int gridWidth;
+	public int gridHeight;
 
 	public const float fMaxJoystickRange = 0.8f;
+
+    void Start() {
+        gridWidth = Screen.width / 2;
+        gridHeight = Screen.height * 2 / 5;
+
+        Debug.Log("Width: " + Screen.width + ", Height: " + Screen.height);
+    }
 
 	void OnGUI()
 	{
@@ -17,9 +24,11 @@ public class TitleScreenScript : MonoBehaviour {
 		                                       gridWidth, gridHeight), 
 		                                       iSelected, arrButtonNames, 1);
 
-		if (GUI.changed) {
-			Debug.Log("Selected: " + iSelected);
-		}
+		Debug.Log("Initial selection: " + iSelected);
+        if (GUI.Button(new Rect(10, 10, 200, 20), "Meet the flashing button")) {
+            Debug.Log("You clicked me!");
+        }
+
 	}
 
 	void Update() {
@@ -29,12 +38,16 @@ public class TitleScreenScript : MonoBehaviour {
 		} else if (Input.GetButtonUp("Down") || Input.GetAxis("Vertical") > fMaxJoystickRange) {
 			iSelected = Mathf.Min(iSelected + 1, arrButtonNames.Length - 1);
 			Debug.Log("Axis: " + Input.GetAxis("Vertical"));
-		} else if (Input.GetButtonUp("Select") || (GUI.changed && Input.GetMouseButtonUp(0)) ||
-		           Input.GetButtonUp("Select (Controller)")) {
+		} else if (Input.GetButtonUp("Select") || Input.GetButtonUp("Select (Controller)") || 
+		           (GUI.changed && (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)))) {
 			ProcessInput();
 		} else if (Input.GetButtonUp("Back (Controller)")) {
 			QuitGame();
 		}
+
+        if (GUI.changed) {
+            Debug.Log("Selection: " + iSelected);
+        }
 	}
 
 	void LoadGame() {
